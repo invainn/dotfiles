@@ -6,8 +6,8 @@ set relativenumber
 set nohlsearch
 set noerrorbells
 set hidden
-set tabstop=2 softtabstop=2
-set shiftwidth=2
+set tabstop=4 softtabstop=4
+set shiftwidth=4
 set expandtab
 set smartindent
 set nu
@@ -38,11 +38,10 @@ set updatetime=50
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
 
+" TODO: Look up NeoVim pack
 call plug#begin('~/.vim/plugged')
 
-Plug 'arcticicestudio/nord-vim'
-Plug 'gruvbox-community/gruvbox'
-Plug 'habamax/vim-gruvbit'
+Plug 'cocopon/iceberg.vim'
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
@@ -55,7 +54,7 @@ Plug 'mbbill/undotree'
 Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-commentary'
 
 Plug 'christoomey/vim-tmux-navigator'
 
@@ -63,17 +62,22 @@ Plug 'ThePrimeagen/vim-be-good'
 Plug 'vim-airline/vim-airline'
 
 Plug 'vim-test/vim-test'
+Plug 'tpope/vim-dispatch'
 
 call plug#end()
 
-let g:gruvbox_contrast_dark='hard'
-if exists('+termguicolors')
+set t_Co=256
+if has('termguicolors')
+  set termguicolors
+
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-endif
-let g:gruvbox_invert_selction='0'
+end
 
-colorscheme gruvbit
+set background=dark    " Setting dark mode
+colorscheme iceberg
+
+let g:airline_theme='iceberg'
 
 if executable('rg')
   let g:rg_derive_root='true'
@@ -96,6 +100,10 @@ lua << EOF
 
   require'nvim_lsp'.pyls.setup{on_attach=on_attach_all}
   require'nvim_lsp'.vimls.setup{on_attach=on_attach_all}
+  require'nvim_lsp'.tsserver.setup{on_attach=on_attach_all}
+  require'nvim_lsp'.jsonls.setup{on_attach=on_attach_all}
+  require'nvim_lsp'.cssls.setup{on_attach=on_attach_all}
+  require'nvim_lsp'.bashls.setup{on_attach=on_attach_all}
 EOF
 
 let g:diagnostic_enable_virtual_text = 1
@@ -103,12 +111,16 @@ let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.rename()<cr>
+nnoremap <silent> ga    <cmd>lua vim.lsp.buf.code_action()<cr>
+
+" Test stuff
+tmap <C-o> <C-\><C-n>
+let test#strategy = "dispatch"
+nmap <silent> <leader>tn :TestNearest<CR>
+nmap <silent> <leader>tf :TestFile<CR>
+nmap <silent> <leader>ts :TestSuite<CR>
 
 " Diagnostic stuff
 nnoremap <leader>dn :NextDiagnosticCycle<CR>
@@ -141,9 +153,3 @@ nnoremap <Leader>- :vertical resize -5<CR>
 nmap <leader>gl :diffget //3<CR>
 nmap <leader>gh :diffget //2<CR>
 nmap <leader>gs :G<CR>
-
-augroup highlight_yank
-  autocmd!
-  autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank(timeuout = 200)
-augroup END
-
