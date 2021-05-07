@@ -6,8 +6,8 @@ set relativenumber
 set nohlsearch
 set noerrorbells
 set hidden
-set tabstop=4 softtabstop=4
-set shiftwidth=4
+set tabstop=2 softtabstop=2
+set shiftwidth=2
 set expandtab
 set smartindent
 set nu
@@ -42,16 +42,21 @@ set shortmess+=c
 call plug#begin('~/.vim/plugged')
 
 Plug 'cocopon/iceberg.vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'arcticicestudio/nord-vim'
+Plug 'folke/tokyonight.nvim'
 
+Plug 'szw/vim-maximizer'
+Plug 'puremourning/vimspector'
+Plug 'hrsh7th/nvim-compe'
 Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
-Plug 'nvim-lua/diagnostic-nvim'
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} " Replace with nvim-treesitter after it's better
+Plug 'Vimjas/vim-python-pep8-indent'
 
 Plug 'tweekmonster/gofmt.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-utils/vim-man'
 Plug 'mbbill/undotree'
-Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-commentary'
@@ -59,7 +64,8 @@ Plug 'tpope/vim-commentary'
 Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'ThePrimeagen/vim-be-good'
-Plug 'vim-airline/vim-airline'
+Plug 'hoob3rt/lualine.nvim'
+Plug 'ryanoasis/vim-devicons'
 
 Plug 'vim-test/vim-test'
 Plug 'tpope/vim-dispatch'
@@ -67,17 +73,44 @@ Plug 'tpope/vim-dispatch'
 call plug#end()
 
 set t_Co=256
+
 if has('termguicolors')
   set termguicolors
-
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 end
 
-set background=dark    " Setting dark mode
-colorscheme iceberg
+let g:tokyonight_style = "night"
+let g:tokyonight_sidebars = [ "qf", "vista_kind", "terminal", "packer" ]
+colorscheme tokyonight
 
-let g:airline_theme='iceberg'
+let g:lualine = {
+    \'options' : {
+    \  'theme' : 'tokyonight',
+    \  'section_separators' : ['', ''],
+    \  'component_separators' : ['', ''],
+    \  'disabled_filetypes' : [],
+    \  'icons_enabled' : v:true,
+    \},
+    \'sections' : {
+    \  'lualine_a' : [ ['mode', {'upper': v:true,},], ],
+    \  'lualine_b' : [ ['branch', {'icon': '',}, ], ],
+    \  'lualine_c' : [ ['filename', {'file_status': v:true,},], ],
+    \  'lualine_x' : [ 'encoding', 'fileformat', 'filetype' ],
+    \  'lualine_y' : [ 'progress' ],
+    \  'lualine_z' : [ 'location'  ],
+    \},
+    \'inactive_sections' : {
+    \  'lualine_a' : [  ],
+    \  'lualine_b' : [  ],
+    \  'lualine_c' : [ 'filename' ],
+    \  'lualine_x' : [ 'location' ],
+    \  'lualine_y' : [  ],
+    \  'lualine_z' : [  ],
+    \},
+    \'extensions' : [ 'fzf' ],
+    \}
+lua require("lualine").setup()
 
 if executable('rg')
   let g:rg_derive_root='true'
@@ -94,16 +127,27 @@ let $FZF_DEFAULT_OPTS='--reverse'
 " lsp stuff
 lua << EOF
   local on_attach_all = function ()
-    require'completion'.on_attach()
-    require'diagnostic'.on_attach()
   end
 
-  require'nvim_lsp'.pyls.setup{on_attach=on_attach_all}
-  require'nvim_lsp'.vimls.setup{on_attach=on_attach_all}
+  require'nvim_lsp'.pyls.setup{
+      on_attach=on_attach_all;
+      settings = {
+        pyls = {
+            plugins = {
+                pycodestyle = {
+                    maxLineLength = 150;
+                }
+            }
+        }
+      }
+  }
+
   require'nvim_lsp'.tsserver.setup{on_attach=on_attach_all}
+  require'nvim_lsp'.vimls.setup{on_attach=on_attach_all}
   require'nvim_lsp'.jsonls.setup{on_attach=on_attach_all}
   require'nvim_lsp'.cssls.setup{on_attach=on_attach_all}
   require'nvim_lsp'.bashls.setup{on_attach=on_attach_all}
+  require'nvim_lsp'.terraformls.setup{on_attach=on_attach_all}
 EOF
 
 let g:diagnostic_enable_virtual_text = 1
@@ -118,9 +162,13 @@ nnoremap <silent> ga    <cmd>lua vim.lsp.buf.code_action()<cr>
 " Test stuff
 tmap <C-o> <C-\><C-n>
 let test#strategy = "dispatch"
+let test#python#runner = 'pytest'
 nmap <silent> <leader>tn :TestNearest<CR>
 nmap <silent> <leader>tf :TestFile<CR>
 nmap <silent> <leader>ts :TestSuite<CR>
+
+" Python Specific
+nnoremap <silent> <leader>tc :Dispatch pipenv run pytest -v tests/component/<CR>
 
 " Diagnostic stuff
 nnoremap <leader>dn :NextDiagnosticCycle<CR>
