@@ -1,42 +1,17 @@
 syntax on
 
-set guicursor=
-set noshowmatch
-set relativenumber
-set nohlsearch
-set noerrorbells
-set hidden
-set tabstop=2 softtabstop=2
-set shiftwidth=2
-set expandtab
-set smartindent
-set nu
-set nowrap
-set smartcase
-set noswapfile
-set nobackup
-set undodir=~/.vim/undodir
-set runtimepath+=~/.vim
-set undofile
-set incsearch
-set scrolloff=8
-set completeopt=menuone,noinsert,noselect
+" Nice menu when typing `:find *.py`
+set wildmode=longest,list,full
+set wildmenu
 
-" Avoid showing message extra message when using completion
-set shortmess+=c
-
-set colorcolumn=120
-highlight ColorColumn ctermbg=0 guibg=lightgrey
-
-" Give more space for displaying messages.
-set cmdheight=2
-
-" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-" delays and poor user experience.
-set updatetime=50
-
-" Don't pass messages to |ins-completion-menu|.
-set shortmess+=c
+" Ignore files
+set wildignore+=*.pyc
+set wildignore+=*_build/*
+set wildignore+=**/coverage/*
+set wildignore+=**/node_modules/*
+set wildignore+=**/android/*
+set wildignore+=**/ios/*
+set wildignore+=**/.git/*
 
 " TODO: Look up NeoVim pack
 call plug#begin('~/.vim/plugged')
@@ -50,15 +25,20 @@ Plug 'szw/vim-maximizer'
 Plug 'puremourning/vimspector'
 Plug 'hrsh7th/nvim-compe'
 Plug 'neovim/nvim-lspconfig'
-Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} " Replace with nvim-treesitter after it's better
+" Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} " Replace with nvim-treesitter after it's better
 Plug 'Vimjas/vim-python-pep8-indent'
+
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+" telescope!
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 
 Plug 'tweekmonster/gofmt.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-utils/vim-man'
 Plug 'mbbill/undotree'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-commentary'
 
 Plug 'christoomey/vim-tmux-navigator'
@@ -84,70 +64,48 @@ let g:tokyonight_style = "night"
 let g:tokyonight_sidebars = [ "qf", "vista_kind", "terminal", "packer" ]
 colorscheme tokyonight
 
-let g:lualine = {
-    \'options' : {
-    \  'theme' : 'tokyonight',
-    \  'section_separators' : ['', ''],
-    \  'component_separators' : ['', ''],
-    \  'disabled_filetypes' : [],
-    \  'icons_enabled' : v:true,
-    \},
-    \'sections' : {
-    \  'lualine_a' : [ ['mode', {'upper': v:true,},], ],
-    \  'lualine_b' : [ ['branch', {'icon': '',}, ], ],
-    \  'lualine_c' : [ ['filename', {'file_status': v:true,},], ],
-    \  'lualine_x' : [ 'encoding', 'fileformat', 'filetype' ],
-    \  'lualine_y' : [ 'progress' ],
-    \  'lualine_z' : [ 'location'  ],
-    \},
-    \'inactive_sections' : {
-    \  'lualine_a' : [  ],
-    \  'lualine_b' : [  ],
-    \  'lualine_c' : [ 'filename' ],
-    \  'lualine_x' : [ 'location' ],
-    \  'lualine_y' : [  ],
-    \  'lualine_z' : [  ],
-    \},
-    \'extensions' : [ 'fzf' ],
-    \}
-lua require("lualine").setup()
-
 if executable('rg')
   let g:rg_derive_root='true'
 endif
 
 let mapleader=" "
-let g:netrw_browse_split=0
-let g:netrw_banner=0
-let g:netrw_winsize=25
-
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
 let $FZF_DEFAULT_OPTS='--reverse'
 
 " lsp stuff
 lua << EOF
-  local on_attach_all = function ()
-  end
+  -- treesitter
+  require'nvim-treesitter.configs'.setup{ highlight = { enable = true } }
 
-  require'nvim_lsp'.pyls.setup{
-      on_attach=on_attach_all;
-      settings = {
-        pyls = {
-            plugins = {
-                pycodestyle = {
-                    maxLineLength = 150;
-                }
-            }
-        }
-      }
+  -- lualine stuff
+  require'lualine'.setup{
+    options = { theme = 'tokyonight' }
   }
 
-  require'nvim_lsp'.tsserver.setup{on_attach=on_attach_all}
-  require'nvim_lsp'.vimls.setup{on_attach=on_attach_all}
-  require'nvim_lsp'.jsonls.setup{on_attach=on_attach_all}
-  require'nvim_lsp'.cssls.setup{on_attach=on_attach_all}
-  require'nvim_lsp'.bashls.setup{on_attach=on_attach_all}
-  require'nvim_lsp'.terraformls.setup{on_attach=on_attach_all}
+  -- lspconfig
+  local on_attach_all = function ()
+    -- literally nothing for now
+  end
+
+  require'lspconfig'.pyls.setup{
+    on_attach=on_attach_all;
+    settings = {
+      pyls = {
+        plugins = {
+          pycodestyle = {
+            maxLineLength = 150;
+          }
+        }
+      }
+    }
+  }
+
+  require'lspconfig'.tsserver.setup{on_attach=on_attach_all}
+  require'lspconfig'.vimls.setup{on_attach=on_attach_all}
+  require'lspconfig'.jsonls.setup{on_attach=on_attach_all}
+  require'lspconfig'.cssls.setup{on_attach=on_attach_all}
+  require'lspconfig'.bashls.setup{on_attach=on_attach_all}
+  require'lspconfig'.terraformls.setup{on_attach=on_attach_all}
 EOF
 
 let g:diagnostic_enable_virtual_text = 1
@@ -186,10 +144,7 @@ nnoremap <leader>j :wincmd j<CR>
 nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
 nnoremap <leader>u :UndotreeShow<CR>
-nnoremap <leader>pf :Files<CR>
-nnoremap <leader>pg :GFiles<CR>
 nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
-nnoremap <leader>ps :Rg<SPACE>
 
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
