@@ -9,8 +9,10 @@ fi
 export ZSH="/Users/anthony.bennett/.oh-my-zsh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(
-  git
+  aws
   brew
+  git
+  zsh-syntax-highlighting
 )
 source $ZSH/oh-my-zsh.sh
 
@@ -22,10 +24,13 @@ fn_exists() {
 # Conditional sourcing
 [[ ! -f ~/.rlrc ]] || source ~/.rlrc
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ ! -f ~/.fzf.zsh ]] || source ~/.fzf.zsh
 
 # Aliases 
 alias vim="nvim"
 alias pip="pip3"
+alias fv='vim $(fzf)'
+alias ll='ls -lah'
 
 # Other stuff
 [[ ! -n "fn_exists nodenv" ]] || eval "$(nodenv init -)"
