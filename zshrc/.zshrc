@@ -25,6 +25,7 @@ fn_exists() {
 [[ ! -f ~/.rlrc ]] || source ~/.rlrc
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 [[ ! -f ~/.fzf.zsh ]] || source ~/.fzf.zsh
+[[ ! -f ~/.path ]] || source ~/.path
 
 # Aliases 
 alias vim="nvim"
