@@ -10,10 +10,22 @@ if [ -d "$HOME/.oh-my-zsh" ]; then
   export ZSH="$HOME/.oh-my-zsh"
   ZSH_THEME="powerlevel10k/powerlevel10k"
   plugins=(
+    z
     aws
-    brew
-    git
+    alias-tips
+    zsh-autosuggestions
     zsh-syntax-highlighting
+    colorize
+    git
+    colored-man-pages
+    docker-compose
+    yarn
+    history-substring-search
+    kubectl
+    node
+    docker
+    npm
+    asdf
   )
   source $ZSH/oh-my-zsh.sh
 fi
@@ -34,6 +46,15 @@ alias vim="nvim"
 alias pip="pip3"
 alias fv='vim $(fzf)'
 alias ll='ls -lah'
+alias tfmt='terraform fmt -recursive'
+
+# Environment variables
+export EDITOR=nvim
 
 # Other stuff
-[[ -n "$(fn_exists nodenv)" ]] && eval "$(nodenv init -)"
+# [[ -n "$(fn_exists nodenv)" ]] && eval "$(nodenv init -)"
+if [ -e /Users/anthony.bennett/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/anthony.bennett/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+. /usr/local/opt/asdf/libexec/asdf.sh
+eval "$(nodenv init -)"
+unset LESS
+compinit
