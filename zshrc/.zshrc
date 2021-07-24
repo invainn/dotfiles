@@ -6,15 +6,17 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # zsh stuff
-export ZSH="/Users/anthony.bennett/.oh-my-zsh"
-ZSH_THEME="powerlevel10k/powerlevel10k"
-plugins=(
-  aws
-  brew
-  git
-  zsh-syntax-highlighting
-)
-source $ZSH/oh-my-zsh.sh
+if [ -d "$HOME/.oh-my-zsh" ]; then
+  export ZSH="$HOME/.oh-my-zsh"
+  ZSH_THEME="powerlevel10k/powerlevel10k"
+  plugins=(
+    aws
+    brew
+    git
+    zsh-syntax-highlighting
+  )
+  source $ZSH/oh-my-zsh.sh
+fi
 
 # Functions
 fn_exists() {
@@ -22,10 +24,10 @@ fn_exists() {
 }
 
 # Conditional sourcing
-[[ ! -f ~/.rlrc ]] || source ~/.rlrc
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-[[ ! -f ~/.fzf.zsh ]] || source ~/.fzf.zsh
-[[ ! -f ~/.path ]] || source ~/.path
+[[ -f ~/.rlrc ]] && source ~/.rlrc
+[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+[[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
+[[ -f ~/.path ]] && source ~/.path
 
 # Aliases 
 alias vim="nvim"
@@ -34,4 +36,4 @@ alias fv='vim $(fzf)'
 alias ll='ls -lah'
 
 # Other stuff
-[[ ! -n "fn_exists nodenv" ]] || eval "$(nodenv init -)"
+[[ -n "$(fn_exists nodenv)" ]] && eval "$(nodenv init -)"
