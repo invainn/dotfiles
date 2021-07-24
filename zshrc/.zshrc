@@ -20,18 +20,12 @@ fn_exists() {
 }
 
 # Conditional sourcing
-if [ -f "/Users/anthony.bennett/.rlrc" ]; then
-  source ~/.rlrc
-fi
+[[ ! -f ~/.rlrc ]] || source ~/.rlrc
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Aliases 
 alias vim="nvim"
 alias pip="pip3"
 
 # Other stuff
-if [ -n "fn_exists nodenv" ]; then
-  eval "$(nodenv init -)"
-fi
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ ! -n "fn_exists nodenv" ]] || eval "$(nodenv init -)"
