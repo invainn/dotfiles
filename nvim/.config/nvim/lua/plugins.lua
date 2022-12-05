@@ -9,7 +9,7 @@ return require('packer').startup(function(use)
 
     -- colorschemes
     -- use 'folke/tokyonight.nvim'
-    use { "catppuccin/nvim", as = "catppuccin" }
+    use { 'catppuccin/nvim', as = 'catppuccin' }
 
     -- formatter
     use 'sbdchd/neoformat'
@@ -24,11 +24,27 @@ return require('packer').startup(function(use)
 
     -- debugger
     use 'mfussenegger/nvim-dap'
+    use { 'rcarriga/nvim-dap-ui', requires = {'mfussenegger/nvim-dap'} }
+    use 'theHamsta/nvim-dap-virtual-text'
+    use 'leoluz/nvim-dap-go'
+    use 'mfussenegger/nvim-dap-python'
+
+    -- testing
+    use {
+        "nvim-neotest/neotest",
+        requires = {
+          "nvim-lua/plenary.nvim",
+          "nvim-treesitter/nvim-treesitter",
+          "antoinemadec/FixCursorHold.nvim",
+          "nvim-neotest/neotest-go",
+          "nvim-neotest/neotest-python",
+        }
+    }
 
     -- lsp-zero
     use {
         'VonHeikemen/lsp-zero.nvim',
-          requires = {
+        requires = {
              -- LSP Support
             {'neovim/nvim-lspconfig'},
             {'williamboman/mason.nvim'},
