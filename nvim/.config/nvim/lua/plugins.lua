@@ -8,7 +8,8 @@ return require('packer').startup(function(use)
     use 'nvim-lua/plenary.nvim'
 
     -- colorschemes
-    use 'folke/tokyonight.nvim'
+    -- use 'folke/tokyonight.nvim'
+    use { "catppuccin/nvim", as = "catppuccin" }
 
     -- formatter
     use 'sbdchd/neoformat'
@@ -46,5 +47,4 @@ return require('packer').startup(function(use)
             {'rafamadriz/friendly-snippets'},
         }
     }
-
 end)
