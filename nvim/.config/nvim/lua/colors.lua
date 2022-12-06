@@ -8,4 +8,4 @@ vim.opt.termguicolors = true
 -- vim.g.tokyonight_colors = { hint = "orange", error = "#ff0000" }
 
 -- Load the colorscheme
-vim.cmd[[colorscheme catppuccin]]
+vim.cmd [[colorscheme catppuccin]]
