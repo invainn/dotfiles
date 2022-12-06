@@ -11,6 +11,9 @@ return require('packer').startup(function(use)
   -- use 'folke/tokyonight.nvim'
   use { 'catppuccin/nvim', as = 'catppuccin' }
 
+  -- tmux
+  use 'christoomey/vim-tmux-navigator'
+
   -- surround
   use 'tpope/vim-surround'
 

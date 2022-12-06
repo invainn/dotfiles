@@ -52,9 +52,6 @@ alias tfmt='terraform fmt -recursive'
 export EDITOR=nvim
 
 # Other stuff
-# [[ -n "$(fn_exists nodenv)" ]] && eval "$(nodenv init -)"
 if [ -e /Users/anthony.bennett/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/anthony.bennett/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
-# . /usr/local/opt/asdf/libexec/asdf.sh
-# eval "$(nodenv init -)"
 unset LESS
 compinit
