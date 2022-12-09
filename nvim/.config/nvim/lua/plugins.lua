@@ -29,6 +29,7 @@ return require('packer').startup(function(use)
       require('Comment').setup()
     end
   }
+  use 'JoosepAlviste/nvim-ts-context-commentstring'
 
   -- tree
   use {
