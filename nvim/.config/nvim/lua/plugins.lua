@@ -17,6 +17,9 @@ return require('packer').startup(function(use)
   -- use 'folke/tokyonight.nvim'
   use { 'invainn/catppuccin-nvim', as = 'catppuccin' }
 
+  -- harpoon
+  use 'ThePrimeagen/harpoon'
+
   -- tmux
   use {
     'numToStr/Navigator.nvim',
@@ -39,12 +42,7 @@ return require('packer').startup(function(use)
   -- formatter
   use 'jose-elias-alvarez/null-ls.nvim'
   use 'windwp/nvim-autopairs'
-  use {
-    'numToStr/Comment.nvim',
-    config = function()
-      require('Comment').setup()
-    end
-  }
+  use 'numToStr/Comment.nvim'
   use 'JoosepAlviste/nvim-ts-context-commentstring'
 
   -- tree

@@ -1,6 +1,7 @@
 local catppuccin = require("catppuccin")
 catppuccin.setup({
-  flavour = "mocha",
+  flavour = "frappe",
+  term_colors = false,
   integrations = {
     native_lsp = {
       enabled = true,
