@@ -1,4 +1,5 @@
-local alpha = require('alpha')
+local status, alpha = pcall(require, 'alpha')
+if (not status) then return end
 local dashboard = require('alpha.themes.dashboard')
 
 local marginTopPercent = 0.3

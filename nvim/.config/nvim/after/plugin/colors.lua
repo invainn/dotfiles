@@ -1,4 +1,6 @@
-local catppuccin = require("catppuccin")
+local status, catppuccin = pcall(require, "catppuccin")
+if (not status) then return end
+
 catppuccin.setup({
   flavour = "frappe",
   term_colors = false,

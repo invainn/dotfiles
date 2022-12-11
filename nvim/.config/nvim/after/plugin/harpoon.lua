@@ -1,4 +1,5 @@
-local harpoon = require('harpoon')
+local status, harpoon = pcall(require, 'harpoon')
+if (not status) then return end
 
 local options = {
   --sets the marks upon calling `toggle` on the ui, instead of require `:w`.
@@ -20,8 +21,10 @@ local options = {
   mark_branch = false,
 }
 
+harpoon.setup(options)
+
 vim.keymap.set('n', '<Leader>hp', '<cmd>lua require("harpoon.ui").toggle_quick_menu()<CR>')
-vim.keymap.set('n', '<Leader>ha', '<cmd>lua require("harpoon.mark").add_file()<CR>')
+vim.keymap.set('n', '<Leader>hg', '<cmd>lua require("harpoon.mark").add_file()<CR>')
 
 vim.keymap.set('n', '<Leader>hf', '<cmd>lua require("harpoon.ui").nav_file(1)<CR>')
 vim.keymap.set('n', '<Leader>hd', '<cmd>lua require("harpoon.ui").nav_file(2)<CR>')

@@ -1,6 +1,8 @@
 vim.cmd [[packadd packer.nvim]]
+local status, packer = pcall(require, 'packer')
+if (not status) then return end
 
-return require('packer').startup(function(use)
+return packer.startup(function(use)
   -- packer
   use 'wbthomason/packer.nvim'
 
@@ -42,6 +44,7 @@ return require('packer').startup(function(use)
   -- formatter
   use 'jose-elias-alvarez/null-ls.nvim'
   use 'windwp/nvim-autopairs'
+  use 'windwp/nvim-ts-autotag'
   use 'numToStr/Comment.nvim'
   use 'JoosepAlviste/nvim-ts-context-commentstring'
 

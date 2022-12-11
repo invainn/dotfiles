@@ -1,5 +1,8 @@
+local status, dap = pcall(require, 'dap')
+if (not status) then return end
+
 local dapgo, dappython = require('dap-go'), require('dap-python')
-local dap, dapui = require("dap"), require("dapui")
+local dapui = require('dapui')
 
 dapgo.setup()
 dappython.setup('~/.virtualenvs/debugpy/bin/python')
