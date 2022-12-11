@@ -15,26 +15,7 @@ return require('packer').startup(function(use)
 
   -- colorschemes
   -- use 'folke/tokyonight.nvim'
-  use {
-    'invainn/catppuccin-nvim', as = 'catppuccin',
-    config = function()
-      local catppuccin = require("catppuccin")
-      catppuccin.setup({
-        flavour = "mocha",
-        integrations = {
-          dashboard = true,
-          harpoon = true,
-          neotest = true,
-          cmp = true,
-          telescope = true,
-          dap = true,
-          treesitter = true,
-          nvimtree = true,
-          markdown = true,
-        },
-      })
-    end
-  }
+  use { 'invainn/catppuccin-nvim', as = 'catppuccin' }
 
   -- tmux
   use {
