@@ -4,25 +4,60 @@ return require('packer').startup(function(use)
   -- packer
   use 'wbthomason/packer.nvim'
 
+  -- dashboard
+  use 'goolord/alpha-nvim'
+
   -- huh
   use 'nvim-lua/plenary.nvim'
 
+  -- indent blankline
+  use 'lukas-reineke/indent-blankline.nvim'
+
   -- colorschemes
   -- use 'folke/tokyonight.nvim'
-  use { 'catppuccin/nvim', as = 'catppuccin' }
+  use {
+    'invainn/catppuccin-nvim', as = 'catppuccin',
+    config = function()
+      local catppuccin = require("catppuccin")
+      catppuccin.setup({
+        flavour = "mocha",
+        integrations = {
+          dashboard = true,
+          harpoon = true,
+          neotest = true,
+          cmp = true,
+          telescope = true,
+          dap = true,
+          treesitter = true,
+          nvimtree = true,
+          markdown = true,
+        },
+      })
+    end
+  }
 
   -- tmux
-  use 'christoomey/vim-tmux-navigator'
+  use {
+    'numToStr/Navigator.nvim',
+    config = function()
+      -- This stuff is here because LSP zero will take C-k if it isn't binded
+      -- Configuration
+      require('Navigator').setup()
+
+      -- Keybindings
+      vim.keymap.set('n', "<C-h>", '<CMD>NavigatorLeft<CR>')
+      vim.keymap.set('n', "<C-l>", '<CMD>NavigatorRight<CR>')
+      vim.keymap.set('n', "<C-k>", '<CMD>NavigatorUp<CR>')
+      vim.keymap.set('n', "<C-j>", '<CMD>NavigatorDown<CR>')
+    end
+  }
 
   -- surround
   use 'tpope/vim-surround'
 
   -- formatter
   use 'jose-elias-alvarez/null-ls.nvim'
-  use {
-    "windwp/nvim-autopairs",
-    config = function() require("nvim-autopairs").setup {} end
-  }
+  use 'windwp/nvim-autopairs'
   use {
     'numToStr/Comment.nvim',
     config = function()
@@ -40,8 +75,22 @@ return require('packer').startup(function(use)
   }
 
   -- telescope
-  use { 'nvim-telescope/telescope.nvim', tag = '0.1.0' }
-  use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+  use {
+    'nvim-telescope/telescope.nvim',
+    tag = '0.1.0',
+  }
+
+  use {
+    'nvim-telescope/telescope-fzf-native.nvim',
+    run = 'make',
+    requires = {
+      'cljoly/telescope-repo.nvim',
+      'airblade/vim-rooter',
+    },
+    config = function()
+      vim.g.rooter_cd_cmd = 'lcd'
+    end
+  }
 
   -- treesitter
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
@@ -55,14 +104,14 @@ return require('packer').startup(function(use)
 
   -- testing
   use {
-    "nvim-neotest/neotest",
+    'nvim-neotest/neotest',
     requires = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-      "antoinemadec/FixCursorHold.nvim",
-      "nvim-neotest/neotest-go",
-      "nvim-neotest/neotest-python",
-      "haydenmeade/neotest-jest",
+      'nvim-lua/plenary.nvim',
+      'nvim-treesitter/nvim-treesitter',
+      'antoinemadec/FixCursorHold.nvim',
+      'nvim-neotest/neotest-go',
+      'nvim-neotest/neotest-python',
+      'haydenmeade/neotest-jest',
     }
   }
 
