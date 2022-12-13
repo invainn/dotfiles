@@ -74,13 +74,6 @@ return require('packer').startup(function(use)
   use {
     'nvim-telescope/telescope-fzf-native.nvim',
     run = 'make',
-    requires = {
-      'cljoly/telescope-repo.nvim',
-      'airblade/vim-rooter',
-    },
-    config = function()
-      vim.g.rooter_cd_cmd = 'lcd'
-    end
   }
 
   -- treesitter

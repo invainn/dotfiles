@@ -68,7 +68,6 @@ local options = {
 }
 
 telescope.setup(options)
-telescope.load_extension "repo"
 
 vim.keymap.set('n', '<Leader>ps', '<cmd>lua require("telescope.builtin").live_grep()<CR>')
 vim.keymap.set('n', '<Leader>pk', '<cmd>lua require("telescope.builtin").keymaps()<CR>')
@@ -78,8 +77,6 @@ vim.keymap.set('n', '<Leader>pt', '<cmd>lua require("telescope.builtin").git_sta
 vim.keymap.set('n', '<Leader>pf', '<cmd>lua require("telescope.builtin").find_files()<CR>')
 
 local home = os.getenv('HOME')
-vim.keymap.set('n', '<Leader>pr',
-  '<cmd>lua require("telescope").extensions.repo.list()<CR>')
 
 vim.keymap.set(
   'n',
