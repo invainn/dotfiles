@@ -47,6 +47,7 @@ alias pip="pip3"
 alias fv='vim $(fzf)'
 alias ll='ls -lah'
 alias tfmt='terraform fmt -recursive'
+alias shit='git reset --soft HEAD~1'
 
 # Environment variables
 export EDITOR=nvim
