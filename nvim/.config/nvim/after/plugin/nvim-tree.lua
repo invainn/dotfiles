@@ -63,4 +63,4 @@ local options = {
 -- empty setup using defaults
 nvim_tree.setup(options)
 
-vim.keymap.set('n', '<Leader>pv', ':NvimTreeToggle<CR>')
+vim.keymap.set('n', '<Leader>pv', vim.cmd.NvimTreeToggle)

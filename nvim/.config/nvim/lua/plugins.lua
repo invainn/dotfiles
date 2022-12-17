@@ -9,9 +9,10 @@ local ensure_packer = function()
   return false
 end
 
+local packer = require('packer')
 local packer_bootstrap = ensure_packer()
 
-return require('packer').startup(function(use)
+return packer.startup(function(use)
   -- packer
   use 'wbthomason/packer.nvim'
 
@@ -31,6 +32,9 @@ return require('packer').startup(function(use)
   -- harpoon
   use 'ThePrimeagen/harpoon'
 
+  -- git stuff
+  use 'tpope/vim-fugitive'
+
   -- tmux
   use {
     'numToStr/Navigator.nvim',
@@ -40,10 +44,10 @@ return require('packer').startup(function(use)
       require('Navigator').setup()
 
       -- Keybindings
-      vim.keymap.set('n', "<C-h>", '<CMD>NavigatorLeft<CR>')
-      vim.keymap.set('n', "<C-l>", '<CMD>NavigatorRight<CR>')
-      vim.keymap.set('n', "<C-k>", '<CMD>NavigatorUp<CR>')
-      vim.keymap.set('n', "<C-j>", '<CMD>NavigatorDown<CR>')
+      vim.keymap.set('n', "<C-h>", vim.cmd.NavigatorLeft)
+      vim.keymap.set('n', "<C-l>", vim.cmd.NavigatorRight)
+      vim.keymap.set('n', "<C-k>", vim.cmd.NavigatorUp)
+      vim.keymap.set('n', "<C-j>", vim.cmd.NavigatorDown)
     end
   }
 
@@ -65,12 +69,20 @@ return require('packer').startup(function(use)
     },
   }
 
+  -- lualine
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = {
+      'nvim-tree/nvim-web-devicons',
+      opt = true,
+    },
+  }
+
   -- telescope
   use {
     'nvim-telescope/telescope.nvim',
     tag = '0.1.0',
   }
-
   use {
     'nvim-telescope/telescope-fzf-native.nvim',
     run = 'make',
@@ -123,6 +135,6 @@ return require('packer').startup(function(use)
   }
 
   if packer_bootstrap then
-    require('packer').sync()
+    packer.sync()
   end
 end)

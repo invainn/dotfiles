@@ -1,6 +1,11 @@
 local status, telescope = pcall(require, 'telescope')
 if (not status) then return end
 
+local sorters = require('telescope.sorters')
+local previewers = require('telescope.previewers')
+local actions = require('telescope.actions')
+local builtin = require('telescope.builtin')
+
 local options = {
   defaults = {
     vimgrep_arguments = {
@@ -33,22 +38,22 @@ local options = {
       height = 0.80,
       preview_cutoff = 120,
     },
-    file_sorter = require("telescope.sorters").get_fuzzy_file,
+    file_sorter = sorters.get_fuzzy_file,
     file_ignore_patterns = { "node_modules" },
-    generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
+    generic_sorter = sorters.get_generic_fuzzy_sorter,
     path_display = { "truncate" },
     winblend = 0,
     border = {},
     borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
     color_devicons = true,
     set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,
-    file_previewer = require("telescope.previewers").vim_buffer_cat.new,
-    grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
-    qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
+    file_previewer = previewers.vim_buffer_cat.new,
+    grep_previewer = previewers.vim_buffer_vimgrep.new,
+    qflist_previewer = previewers.vim_buffer_qflist.new,
     -- Developer configurations: Not meant for general override
-    buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
+    buffer_previewer_maker = previewers.buffer_previewer_maker,
     mappings = {
-      n = { ["q"] = require("telescope.actions").close },
+      n = { ["q"] = actions.close },
     },
   },
   extensions = {
@@ -60,30 +65,29 @@ local options = {
       -- the default case_mode is "smart_case"
     }
   },
-  pickers = {
-    find_files = {
-      find_command = { 'rg', '--files', '--hidden', '-g', '!.git' }
-    },
-  },
 }
 
 telescope.setup(options)
 
-vim.keymap.set('n', '<Leader>ps', '<cmd>lua require("telescope.builtin").live_grep()<CR>')
-vim.keymap.set('n', '<Leader>pk', '<cmd>lua require("telescope.builtin").keymaps()<CR>')
-vim.keymap.set('n', '<Leader>pg', '<cmd>lua require("telescope.builtin").git_files()<CR>')
-vim.keymap.set('n', '<Leader>pb', '<cmd>lua require("telescope.builtin").git_branches()<CR>')
-vim.keymap.set('n', '<Leader>pt', '<cmd>lua require("telescope.builtin").git_stashes()<CR>')
-vim.keymap.set('n', '<Leader>pf', '<cmd>lua require("telescope.builtin").find_files()<CR>')
+vim.keymap.set('n', '<Leader>ps', builtin.live_grep)
+vim.keymap.set('n', '<Leader>pk', builtin.keymaps)
+vim.keymap.set('n', '<Leader>pg', builtin.git_files)
+vim.keymap.set(
+  'n',
+  '<Leader>pf',
+  function()
+    builtin.find_files { find_command = { "rg", "--files", "--hidden", "-g", "!.git" } }
+  end
+)
 
 local home = os.getenv('HOME')
-
 vim.keymap.set(
   'n',
   '<Leader>pd',
-  ':lua require("telescope.builtin").find_files({find_command={"rg","--files","--hidden","-g","!.git"},search_dirs={"' ..
-  home .. '/.dotfiles"}})<CR>'
+  function()
+    builtin.find_files { find_command = { "rg", "--files", "--hidden", "-g", "!.git" },
+      search_dirs = { home .. "/.dotfiles" } }
+  end
 )
 
-
-require('telescope').load_extension('fzf')
+telescope.load_extension('fzf')

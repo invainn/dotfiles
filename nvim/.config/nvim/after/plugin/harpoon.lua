@@ -23,10 +23,21 @@ local options = {
 
 harpoon.setup(options)
 
-vim.keymap.set('n', '<Leader>hp', '<cmd>lua require("harpoon.ui").toggle_quick_menu()<CR>')
-vim.keymap.set('n', '<Leader>hg', '<cmd>lua require("harpoon.mark").add_file()<CR>')
+local ui = require('harpoon.ui')
+local mark = require('harpoon.mark')
 
-vim.keymap.set('n', '<Leader>hf', '<cmd>lua require("harpoon.ui").nav_file(1)<CR>')
-vim.keymap.set('n', '<Leader>hd', '<cmd>lua require("harpoon.ui").nav_file(2)<CR>')
-vim.keymap.set('n', '<Leader>hs', '<cmd>lua require("harpoon.ui").nav_file(3)<CR>')
-vim.keymap.set('n', '<Leader>ha', '<cmd>lua require("harpoon.ui").nav_file(4)<CR>')
+vim.keymap.set('n', '<Leader>hp', ui.toggle_quick_menu)
+vim.keymap.set('n', '<Leader>hg', mark.add_file)
+
+vim.keymap.set('n', '<Leader>hf', function()
+  ui.nav_file(1)
+end)
+vim.keymap.set('n', '<Leader>hd', function()
+  ui.nav_file(2)
+end)
+vim.keymap.set('n', '<Leader>hs', function()
+  ui.nav_file(3)
+end)
+vim.keymap.set('n', '<Leader>ha', function()
+  ui.nav_file(4)
+end)
