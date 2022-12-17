@@ -18,6 +18,10 @@ autocmd('BufWinEnter', {
       vim.cmd.Git('push')
     end, opts)
 
+    vim.keymap.set('n', '<Leader>F', function()
+      vim.cmd.Git('push --force')
+    end, opts)
+
     vim.keymap.set('n', '<Leader>p', function()
       vim.cmd.Git('pull')
     end, opts)

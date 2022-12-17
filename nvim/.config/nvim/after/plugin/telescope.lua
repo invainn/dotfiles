@@ -72,6 +72,7 @@ telescope.setup(options)
 vim.keymap.set('n', '<Leader>ps', builtin.live_grep)
 vim.keymap.set('n', '<Leader>pk', builtin.keymaps)
 vim.keymap.set('n', '<Leader>pg', builtin.git_files)
+vim.keymap.set('n', '<Leader>ph', builtin.help_tags)
 vim.keymap.set(
   'n',
   '<Leader>pf',
