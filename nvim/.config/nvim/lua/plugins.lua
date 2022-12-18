@@ -22,6 +22,9 @@ return packer.startup(function(use)
   -- huh
   use 'nvim-lua/plenary.nvim'
 
+  -- undotree
+  use 'mbbill/undotree'
+
   -- indent blankline
   use 'lukas-reineke/indent-blankline.nvim'
 
