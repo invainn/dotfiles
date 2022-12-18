@@ -68,6 +68,7 @@ local options = {
 }
 
 telescope.setup(options)
+telescope.load_extension('fzf')
 
 vim.keymap.set('n', '<Leader>ps', builtin.live_grep)
 vim.keymap.set('n', '<Leader>pk', builtin.keymaps)
@@ -91,4 +92,5 @@ vim.keymap.set(
   end
 )
 
-telescope.load_extension('fzf')
+vim.keymap.set('n', '<Leader>ds', builtin.lsp_document_symbols)
+vim.keymap.set('n', '<Leader>ws', builtin.lsp_workspace_symbols)
