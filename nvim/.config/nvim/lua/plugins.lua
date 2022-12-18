@@ -37,6 +37,7 @@ return packer.startup(function(use)
 
   -- git stuff
   use 'tpope/vim-fugitive'
+  use 'lewis6991/gitsigns.nvim'
 
   -- tmux
   use {

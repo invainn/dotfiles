@@ -22,7 +22,7 @@ local options = {
 
 local sections = {
   lualine_a = { 'mode' },
-  lualine_b = { 'branch', 'diagnostics' },
+  lualine_b = { 'branch', 'diff', 'diagnostics' },
   lualine_c = { 'filename' },
   lualine_x = { 'location' },
   lualine_y = { 'encoding', 'fileformat', 'filetype' },
