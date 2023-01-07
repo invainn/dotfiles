@@ -26,6 +26,7 @@ if [ -d "$HOME/.oh-my-zsh" ]; then
     docker
     npm
     asdf
+    pnpm
   )
   source $ZSH/oh-my-zsh.sh
 fi
@@ -48,6 +49,7 @@ alias fv='vim $(fzf)'
 alias ll='ls -lah'
 alias tfmt='terraform fmt -recursive'
 alias shit='git reset --soft HEAD~1'
+alias lg='lazygit'
 
 # Environment variables
 export EDITOR=nvim

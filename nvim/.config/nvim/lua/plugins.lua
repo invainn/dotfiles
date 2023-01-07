@@ -61,7 +61,7 @@ return packer.startup(function(use)
   -- formatter
   use 'jose-elias-alvarez/null-ls.nvim'
   use 'windwp/nvim-autopairs'
-  use 'windwp/nvim-ts-autotag'
+  use 'invainn/nvim-ts-autotag'
   use 'numToStr/Comment.nvim'
   use 'JoosepAlviste/nvim-ts-context-commentstring'
 

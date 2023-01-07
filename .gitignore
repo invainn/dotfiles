@@ -2,3 +2,4 @@ nvim/.config/nvim/.netrwhist
 nvim/.vim/plugged
 nvim/.vim/undodir
 **/*/packer_compiled.lua
+lazygit/.config/lazygit/state.yml
