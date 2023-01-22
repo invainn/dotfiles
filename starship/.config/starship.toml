@@ -22,7 +22,7 @@ $character"""
 symbol = " "
 
 [directory]
-style = "blue"
+style = "bold blue"
 read_only = " "
 truncate_to_repo = true
 
