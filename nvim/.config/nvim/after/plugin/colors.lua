@@ -2,7 +2,7 @@ local status, catppuccin = pcall(require, "catppuccin")
 if (not status) then return end
 
 catppuccin.setup({
-  flavour = "frappe",
+  flavour = "macchiato",
   term_colors = false,
   integrations = {
     native_lsp = {
