@@ -18,6 +18,16 @@ lsp.setup_nvim_cmp({
   }
 })
 
+lsp.configure('tsserver', {
+  single_file_support = false,
+  root_dir = require('lspconfig.util').root_pattern('package.json'),
+})
+
+lsp.configure('denols', {
+  single_file_support = false,
+  root_dir = require('lspconfig.util').root_pattern('deno.json', 'deno.jsonc'),
+})
+
 lsp.setup()
 
 local comment = require('Comment')

@@ -23,12 +23,19 @@ null_ls.setup({
   on_attach = null_opts.on_attach,
   sources = {
     null_ls.builtins.formatting.stylua,
-    null_ls.builtins.diagnostics.eslint,
+    null_ls.builtins.diagnostics.eslint.with {
+      condition = function(utils)
+        return utils.root_has_file({ ".eslintrc.js", ".eslintrc.json" })
+      end
+    },
     -- null_ls.builtins.completion.spell,
     null_ls.builtins.formatting.gofmt,
     null_ls.builtins.formatting.jq,
-    -- null_ls.builtins.formatting.eslint_d,
-    null_ls.builtins.formatting.eslint,
+    null_ls.builtins.formatting.eslint.with {
+      condition = function(utils)
+        return utils.root_has_file({ ".eslintrc.js", ".eslintrc.json" })
+      end
+    },
     null_ls.builtins.formatting.rustfmt,
     null_ls.builtins.formatting.prettier.with {
       filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "css", "scss", "less",
