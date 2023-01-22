@@ -1,0 +1,50 @@
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_state\
+$git_status\
+$git_metrics\
+$cmd_duration\
+$fill\
+$deno\
+$rust\
+$nodejs\
+$golang\
+$terraform\
+$jobs $time\
+$aws\
+$line_break\
+$character"""
+
+[fill]
+symbol = " "
+
+[directory]
+style = "blue"
+read_only = " "
+truncate_to_repo = true
+
+[aws]
+format = 'on [$symbol$profile]($style) '
+
+[git_branch]
+truncation_length = 6
+truncation_symbol = ''
+style = 'bold purple'
+
+[nodejs]
+format = 'via [$symbol($version)(\($switch_indicator$switch_name\))]($style)'
+
+[deno]
+format = 'via [$symbol($version)(\($switch_indicator$switch_name\))]($style)'
+
+[rust]
+format = 'via [$symbol($version)]($style)'
+
+[golang]
+format = 'via [$symbol($version)]($style)'
+
+[terraform]
+format = 'via [$symbol$version]($style)'

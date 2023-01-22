@@ -1,14 +1,6 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # zsh stuff
 if [ -d "$HOME/.oh-my-zsh" ]; then
   export ZSH="$HOME/.oh-my-zsh"
-  ZSH_THEME="powerlevel10k/powerlevel10k"
   plugins=(
     z
     aws
@@ -58,3 +50,6 @@ export EDITOR=nvim
 if [ -e /Users/anthony.bennett/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/anthony.bennett/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 unset LESS
 compinit
+
+# starship
+eval "$(starship init zsh)"
