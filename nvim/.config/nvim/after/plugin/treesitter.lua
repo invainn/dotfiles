@@ -18,7 +18,6 @@ treesitter_config.setup {
     "tsx",
     "toml",
     "json",
-    "yaml",
     "css",
     "html",
     "lua"
