@@ -138,6 +138,8 @@ return packer.startup(function(use)
     }
   }
 
+  use 'github/copilot.vim'
+
   if packer_bootstrap then
     packer.sync()
   end
