@@ -9,8 +9,8 @@ local ensure_packer = function()
   return false
 end
 
-local packer = require('packer')
 local packer_bootstrap = ensure_packer()
+local packer = require('packer')
 
 return packer.startup(function(use)
   -- packer
