@@ -1,7 +1,8 @@
 return {
-  "dashboard-nvim",
-  opts = function(_, opts)
-    local logo = [[
+  {
+    "dashboard-nvim",
+    opts = function(_, opts)
+      local logo = [[
       ⠀⠀⠀⠀⠀⢸⠓⢄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
       ⠀⠀⠀⠀⠀⢸⠀⠀⠑⢤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
       ⠀⠀⠀⠀⠀⢸⡆⠀⠀⠀⠙⢤⡷⣤⣦⣀⠤⠖⠚⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -19,7 +20,30 @@ return {
       ⠀⠀⠀⠀⠀⠉⠀⠀⠀⠙⢿⣳⠞⠳⡄⠀⠀⠀⢀⡞⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
       ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠀⠀⠹⣄⣀⡤⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
     ]]
-    logo = string.rep("\n", 8) .. logo .. "\n\n"
-    opts.config.header = vim.split(logo, "\n")
-  end,
+      logo = string.rep("\n", 8) .. logo .. "\n\n"
+      opts.config.header = vim.split(logo, "\n")
+    end,
+  },
+  {
+    'numToStr/Navigator.nvim',
+    keys = {
+      {
+        "<C-l>",
+        "<CMD>NavigatorRight<CR>",
+      },
+      {
+        "<C-h>",
+        "<CMD>NavigatorLeft<CR>",
+      },
+      {
+        "<C-j>",
+        "<CMD>NavigatorDown<CR>",
+      },
+      {
+        "<C-k>",
+        "<CMD>NavigatorUp<CR>",
+      },
+    },
+    config = true,
+  }
 }
