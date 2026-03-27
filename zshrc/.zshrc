@@ -17,7 +17,6 @@ if [ -d "$HOME/.oh-my-zsh" ]; then
     node
     docker
     npm
-    asdf
     pnpm
   )
   source $ZSH/oh-my-zsh.sh
@@ -29,6 +28,7 @@ fn_exists() {
 }
 
 # Conditional sourcing
+[[ -f ~/.other ]] && source ~/.other
 [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 [[ -f ~/.path ]] && source ~/.path
 
@@ -40,6 +40,7 @@ alias ll='ls -lah'
 alias tfmt='terraform fmt -recursive'
 alias shit='git reset --soft HEAD~1'
 alias lg='lazygit'
+alias oc='opencode'
 
 # Environment variables
 export EDITOR=nvim
@@ -51,3 +52,7 @@ compinit
 
 # starship
 eval "$(starship init zsh)"
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+
+# mise
+eval "$(/opt/homebrew/bin/mise  activate zsh)"
