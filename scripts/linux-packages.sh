@@ -4,43 +4,94 @@ set -euo pipefail
 # ---------------------------------------------------------------------------
 # Linux package installer (idempotent)
 #
-# Installs the same packages as macos-packages.sh where apt equivalents exist.
+# Detects the system package manager and installs the same packages as
+# macos-packages.sh where equivalents exist.
 #
-# Not available via apt (install separately):
+# Supported: apt (Debian/Ubuntu), dnf (Fedora/RHEL), pacman (Arch), zypper (openSUSE)
+#
+# Not available in most distro repos (install separately):
 #   - mise        → https://mise.jdx.dev
 #   - starship    → https://starship.rs
-#   - eza         → https://github.com/eza-community/eza
-#   - git-delta   → https://github.com/dandavison/delta
+#   - opencode    → https://opencode.ai
 #   - docker      → https://docs.docker.com/engine/install/
-#   - gh          → https://github.com/cli/cli/blob/trunk/docs/install_linux.md
-#                    (needs the GitHub CLI apt repo; skipped here)
 # ---------------------------------------------------------------------------
 
-# --- apt packages ----------------------------------------------------------
+# --- Detect package manager and define install command ---------------------
 
-echo "==> Installing apt packages ..."
+if command -v apt &>/dev/null; then
+    PKG_MANAGER="apt"
+    pkg_install() { sudo apt update -y && sudo apt install -y "$@"; }
+elif command -v dnf &>/dev/null; then
+    PKG_MANAGER="dnf"
+    pkg_install() { sudo dnf install -y "$@"; }
+elif command -v pacman &>/dev/null; then
+    PKG_MANAGER="pacman"
+    pkg_install() { sudo pacman -Syu --noconfirm "$@"; }
+elif command -v zypper &>/dev/null; then
+    PKG_MANAGER="zypper"
+    pkg_install() { sudo zypper install -y "$@"; }
+else
+    echo "ERROR: No supported package manager found (apt, dnf, pacman, zypper)." >&2
+    exit 1
+fi
 
-sudo apt update -y
+echo "==> Detected package manager: $PKG_MANAGER"
 
-sudo apt install -y \
-    neovim \
-    git \
-    curl \
-    wget \
-    jq \
-    ripgrep \
-    fzf \
-    fd-find \
-    tree \
-    tmux \
-    bat \
-    htop \
-    tldr \
-    stow \
-    build-essential \
-    zsh-syntax-highlighting
+# --- Map package names that differ across distros --------------------------
+#
+# Canonical name → distro-specific name. Empty string = skip (not available).
 
-echo "    apt packages installed"
+pkg_name() {
+    local pkg="$1"
+    case "$pkg" in
+        fd)
+            case "$PKG_MANAGER" in
+                apt|dnf) echo "fd-find" ;;
+                *)       echo "fd" ;;
+            esac ;;
+        build-tools)
+            case "$PKG_MANAGER" in
+                apt)    echo "build-essential" ;;
+                pacman) echo "base-devel" ;;
+                *)      echo "gcc make" ;;
+            esac ;;
+        gh)
+            case "$PKG_MANAGER" in
+                pacman) echo "github-cli" ;;
+                *)      echo "gh" ;;
+            esac ;;
+        eza)
+            case "$PKG_MANAGER" in
+                dnf|pacman) echo "eza" ;;
+                *)          echo "" ;;
+            esac ;;
+        git-delta)
+            case "$PKG_MANAGER" in
+                dnf|pacman) echo "git-delta" ;;
+                *)          echo "" ;;
+            esac ;;
+        *) echo "$pkg" ;;
+    esac
+}
+
+# --- Shared package list ---------------------------------------------------
+
+PACKAGES=(
+    neovim git curl wget jq ripgrep fzf fd tree tmux
+    bat htop tldr stow build-tools zsh zsh-syntax-highlighting
+    gh eza git-delta
+)
+
+# Resolve canonical names to distro-specific names
+RESOLVED=()
+for pkg in "${PACKAGES[@]}"; do
+    resolved=$(pkg_name "$pkg")
+    [ -n "$resolved" ] && RESOLVED+=($resolved)
+done
+
+echo "==> Installing system packages ..."
+pkg_install "${RESOLVED[@]}"
+echo "    system packages installed"
 
 # --- lazygit (binary from GitHub release) ----------------------------------
 
