@@ -36,19 +36,30 @@ fn_exists() {
 alias vim="nvim"
 alias pip="pip3"
 alias fv='vim $(fzf)'
-alias ll='ls -lah'
 alias tfmt='terraform fmt -recursive'
 alias shit='git reset --soft HEAD~1'
 alias lg='lazygit'
 alias oc='opencode'
 
+# Modern CLI replacements
+alias cat='bat --paging=never'
+alias catp='bat'
+alias ls='eza --icons'
+alias ll='eza -la --icons --git'
+alias lt='eza --tree --icons --level=2'
+alias diff='delta'
+alias top='htop'
+alias help='tldr'
+
 # Environment variables
 export EDITOR=nvim
+export XDG_CONFIG_HOME="$HOME/.config"
 
 # Other stuff
 if [ -e /Users/anthony.bennett/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/anthony.bennett/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 unset LESS
 compinit
+compdef _files diff
 
 # starship
 eval "$(starship init zsh)"

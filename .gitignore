@@ -3,3 +3,4 @@ nvim/.vim/plugged
 nvim/.vim/undodir
 **/*/packer_compiled.lua
 lazygit/.config/lazygit/state.yml
+opencode/

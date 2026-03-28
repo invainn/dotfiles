@@ -5,12 +5,6 @@ DOTFILES_DIR="${1:?Usage: macos-scroll-switcher.sh <dotfiles-dir>}"
 
 echo "==> macOS detected — setting up scroll-switcher packages"
 
-if ! command -v stow &>/dev/null; then
-    echo "ERROR: GNU stow is required but not found in PATH." >&2
-    echo "       Install it with: brew install stow" >&2
-    exit 1
-fi
-
 if ! command -v swiftc &>/dev/null; then
     echo "ERROR: swiftc is required but not found in PATH." >&2
     echo "       Install Xcode Command Line Tools: xcode-select --install" >&2

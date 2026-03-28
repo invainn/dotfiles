@@ -10,5 +10,6 @@ fi
 
 if [ "$(uname)" = "Darwin" ]; then
     echo "==> macOS detected"
+    bash "$DOTFILES_DIR/scripts/macos-packages.sh"
     bash "$DOTFILES_DIR/scripts/macos-scroll-switcher.sh" "$DOTFILES_DIR"
 fi
