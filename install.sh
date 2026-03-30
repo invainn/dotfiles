@@ -24,3 +24,29 @@ if [ "$(uname)" = "Darwin" ]; then
     fi
     bash "$DOTFILES_DIR/scripts/macos-scroll-switcher.sh" "$DOTFILES_DIR"
 fi
+
+# --- Stow dotfiles ---------------------------------------------------------
+
+echo "==> Stowing dotfiles ..."
+
+STOW_PACKAGES=(
+    lazygit
+    nvim
+    opencode
+    scroll-launchagents
+    scroll-switcher
+    starship
+    tmux
+    zshrc
+)
+
+if $WORK; then
+    STOW_PACKAGES+=(k9s)
+fi
+
+for pkg in "${STOW_PACKAGES[@]}"; do
+    echo "    stow $pkg"
+    stow -d "$DOTFILES_DIR" -t "$HOME" --restow "$pkg"
+done
+
+echo "==> Dotfiles stowed"

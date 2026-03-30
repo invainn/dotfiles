@@ -57,6 +57,21 @@ brew install \
     tlrc \
     gh \
     docker \
-    opencode
+    opencode \
+    uv
 
 echo "==> Homebrew packages installed"
+
+echo "==> Installing casks via Homebrew ..."
+
+brew install --cask \
+    ghostty \
+    discord \
+    bruno \
+    1password \
+    google-chrome \
+    obsidian \
+    rectangle \
+    todoist-app
+
+echo "==> Homebrew casks installed"

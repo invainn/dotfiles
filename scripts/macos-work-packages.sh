@@ -16,3 +16,13 @@ brew install \
     tflint
 
 echo "==> Work packages installed"
+
+echo "==> Installing work casks via Homebrew ..."
+
+brew install --cask \
+    zoom \
+    slack \
+    meetingbar \
+    tableplus
+
+echo "==> Work casks installed"

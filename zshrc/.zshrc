@@ -40,6 +40,8 @@ alias tfmt='terraform fmt -recursive'
 alias shit='git reset --soft HEAD~1'
 alias lg='lazygit'
 alias oc='opencode'
+alias asl='aws-sso-util login'
+alias ascu='aws-sso-util configure populate'
 
 # Modern CLI replacements
 alias cat='bat --paging=never'
