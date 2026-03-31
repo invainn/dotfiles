@@ -31,7 +31,7 @@ log() {
 is_external_mouse_connected() {
     local count
     count=$(hidutil list 2>/dev/null \
-        | awk 'NR > 2 && $4 == "1" && $5 == "2" && $NF == "0"' \
+        | awk 'NR > 2 && $4 == "1" && $5 == "2" && $NF == "0" && $7 != "UniversalControl"' \
         | wc -l)
     count=$(( count + 0 ))  # trim whitespace from wc
 
